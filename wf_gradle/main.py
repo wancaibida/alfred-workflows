@@ -1,10 +1,14 @@
 import json
 import sys
+import xml
 import xmltodict
 
 
 def main(xml_input):
-    data = xmltodict.parse(xml_input)
+    try:
+        data = xmltodict.parse(xml_input)
+    except xml.parsers.expat.ExpatError:
+        return "Invalid Input"
     dependency = data['dependency']
     return "{}:{}:{}".format(dependency['groupId'], dependency['artifactId'], dependency['version']).strip()
 

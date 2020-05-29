@@ -16,6 +16,24 @@ def to_const(string):
     return out_const
 
 
+def un_const(string):
+    chars = [c for c in string]
+
+    out = ''
+    next_to_underline = False
+    for idx, char in enumerate(chars):
+        if char is '_':
+            next_to_underline = True
+        else:
+            if next_to_underline:
+                out += char.upper()
+                next_to_underline = False
+            else:
+                out += char.lower()
+
+    return out
+
+
 def to_camel(string):
     out_camel = ''
     is_upper = False
@@ -95,6 +113,7 @@ if __name__ == '__main__':
 
     camel = to_camel(query)
     const = to_const(query)
+    un_const = un_const(query)
     mid = to_mid_line(query)
     upper = query.upper()
     lower = query.lower()
@@ -107,8 +126,21 @@ if __name__ == '__main__':
     re_camel_2 = un_camel_2(query)
 
     items = []
-    for txt in [camel, const, mid, upper, lower, capitalize, un_capitalize, no_space, upper_no_space, re_mid, re_camel,
-                re_camel_2]:
+    for txt in [
+        camel,
+        const,
+        un_const,
+        mid,
+        upper,
+        lower,
+        capitalize,
+        un_capitalize,
+        no_space,
+        upper_no_space,
+        re_mid,
+        re_camel,
+        re_camel_2
+    ]:
         items.append({'title': txt, 'arg': txt})
     result = {'items': items}
     json.dump(result, sys.stdout)

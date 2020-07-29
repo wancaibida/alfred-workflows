@@ -9,7 +9,7 @@ def to_const(string):
         if s.isupper():
             if not is_first:
                 out_const += '_'
-        elif s is ' ':
+        elif s == ' ':
             out_const += '_'
         out_const += s.upper()
         is_first = False
@@ -22,7 +22,7 @@ def un_const(string):
     out = ''
     next_to_underline = False
     for idx, char in enumerate(chars):
-        if char is '_':
+        if char == '_':
             next_to_underline = True
         else:
             if next_to_underline:
@@ -62,12 +62,25 @@ def to_mid_line(string):
     return out_mid
 
 
+def to_under_line(string):
+    out_under = ''
+    is_first = True
+    for s in string:
+        if s.isupper():
+            if not is_first:
+                out_under += '_'
+            s = s.lower()
+        out_under += s
+        is_first = False
+    return out_under
+
+
 def un_mid_line(string):
     out = ''
     is_upper = False
     is_first = True
     for s in string:
-        if s is '-':
+        if s == '-':
             if not is_first:
                 is_upper = True
                 continue
@@ -115,6 +128,7 @@ if __name__ == '__main__':
     const = to_const(query)
     un_const = un_const(query)
     mid = to_mid_line(query)
+    under = to_under_line(query)
     upper = query.upper()
     lower = query.lower()
     capitalize = query.capitalize()
@@ -130,6 +144,7 @@ if __name__ == '__main__':
         camel,
         const,
         un_const,
+        under,
         mid,
         upper,
         lower,

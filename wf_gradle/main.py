@@ -10,7 +10,13 @@ def main(xml_input):
     except xml.parsers.expat.ExpatError:
         return "Invalid Input"
     dependency = data['dependency']
-    return "{}:{}:{}".format(dependency['groupId'], dependency['artifactId'], dependency['version']).strip()
+    args = []
+
+    for k in ['groupId', 'artifactId', 'version']:
+        if k in dependency:
+            args.append(dependency[k])
+
+    return ':'.join([str(ele) for ele in args])
 
 
 if __name__ == '__main__':
@@ -21,6 +27,11 @@ if __name__ == '__main__':
 
     output = main(query)
 
-    result = {'items': [{'title': output, 'arg': output}]}
+    result = {
+        'items': [
+            {'title': output, 'arg': output},
+            {'title': 'implementation("{}")'.format(output), 'arg': 'implementation({})'.format(output)}
+        ]
+    }
     json.dump(result, sys.stdout)
     sys.stdout.flush()
